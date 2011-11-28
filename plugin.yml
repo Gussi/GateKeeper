@@ -9,3 +9,4 @@ commands:
   whitelist:
     description: Whitelist management
     usage: /<command> [add/remove/check] [ip/cidr]
+    alias: [wl]
