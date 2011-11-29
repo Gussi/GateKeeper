@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Whitelist extends JavaPlugin {
 	public static Whitelist plugin;
 	public final static Logger log = Logger.getLogger("Minecraft.Whitelist");
+	public Data data;
 
 	private Listener playerListener = new WhitelistPlayerListener();
 
@@ -22,8 +23,11 @@ public class Whitelist extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		this.getConfig().options().copyDefaults();
+		Whitelist.log.info(this.getConfig().getString("mysql.host"));
 		Whitelist.plugin = this;
 		Whitelist.log.info(this.getDescription().getName() + " v" + this.getDescription().getVersion() + " enabled");
+		this.data = new Data();
 		
 		this.registerCommands();
 		this.registerEvents();
