@@ -1,4 +1,4 @@
-CREATE TABLE `whitelist_player` (
+CREATE TABLE IF NOT EXISTS `whitelist_player` (
   `player` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Player name',
   `comment` varchar(1024) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Comment',
   `type` enum('whitelist','blacklist') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type',

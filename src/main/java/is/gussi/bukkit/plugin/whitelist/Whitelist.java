@@ -23,8 +23,9 @@ public class Whitelist extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.getConfig().options().copyDefaults();
-		Whitelist.log.info(this.getConfig().getString("mysql.host"));
+		this.getConfig().options().copyDefaults(true);
+		this.saveConfig();
+		
 		Whitelist.plugin = this;
 		Whitelist.log.info(this.getDescription().getName() + " v" + this.getDescription().getVersion() + " enabled");
 		this.data = new Data();

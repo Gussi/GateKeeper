@@ -1,4 +1,4 @@
-CREATE TABLE `whitelist_cidr` (
+CREATE TABLE IF NOT EXISTS `whitelist_cidr` (
   `cidr` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'CIDR',
   `start` int(10) NOT NULL COMMENT 'Start range',
   `end` int(10) NOT NULL COMMENT 'End range',

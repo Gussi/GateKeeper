@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -49,9 +48,10 @@ public class Data {
 	public Connection db() {
 		FileConfiguration fc = Whitelist.plugin.getConfig();
 		try {
-			return DriverManager.getConnection("jdbc:mysql://" + fc.getString("mysql.host") + ":" + fc.getString("mysql.port") + "/" + fc.getString("mysql.database") + "?autoReconnect=true&user=" + fc.getString("mysql.user") + "&password=" + fc.getString("mysql.pass"));
+			return DriverManager.getConnection("jdbc:mysql://" + fc.getString("mysql.host") + ":" + Integer.toString(fc.getInt("mysql.port")) + "/" + fc.getString("mysql.database") + "?autoReconnect=true&user=" + fc.getString("mysql.username") + "&password=" + fc.getString("mysql.password"));
 		} catch (SQLException ex) {
-			Whitelist.log.severe("Unable to connect to database!");
+			Whitelist.log.severe("[Whitelist] Unable to connect to database!");
+			ex.printStackTrace();
 			Whitelist.plugin.getServer().getPluginManager().disablePlugin(Whitelist.plugin);
 		}
 		return null;
@@ -61,13 +61,13 @@ public class Data {
 		InputStream is = null;
 		BufferedReader br = null;
 		String line;
-		ArrayList<String> list = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
 
 		try { 
-			is = Data.class.getResourceAsStream("/sql/" + table);
+			is = Whitelist.class.getResourceAsStream("/sql/" + table);
 			br = new BufferedReader(new InputStreamReader(is));
 			while (null != (line = br.readLine())) {
-				list.add(line);
+				sb.append(line);
 			}
 		}
 		catch (Exception e) {
@@ -82,6 +82,6 @@ public class Data {
 				e.printStackTrace();
 			}
 		}
-		return list.toString();
+		return sb.toString();
 	}
 }
