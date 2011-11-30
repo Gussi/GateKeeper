@@ -4,23 +4,8 @@ import java.util.Date;
 
 public abstract class Data {
 	protected String comment = "";
-	protected Type type = Type.WHITELIST;
+	protected String type = "whitelist";
 	protected Date expire = new Date();
-
-	public enum Type {
-		WHITELIST("whitelist"),
-		BLACKLIST("blacklist");
-		
-		private final String type;
-		
-		Type(String type) {
-			this.type = type;
-		}
-		
-		public String toString() {
-			return type;
-		}
-	}
 	
 	abstract public boolean equals(Object obj);
 
@@ -33,11 +18,11 @@ public abstract class Data {
 		return this;
 	}
 
-	public Type getType() {
+	public String getType() {
 		return type;
 	}
 
-	public Data setType(Type type) {
+	public Data setType(String type) {
 		this.type = type;
 		return this;
 	}

@@ -1,5 +1,7 @@
 package is.gussi.bukkit.plugin.whitelist.data;
 
+import java.util.Date;
+
 import org.bukkit.entity.Player;
 
 import is.gussi.bukkit.plugin.whitelist.Data;
@@ -8,6 +10,15 @@ public class DataCIDR extends Data {
 	private String cidr = "0.0.0.0/0";
 	private int start = 0;
 	private int end = 0;
+	
+	public DataCIDR(String cidr, int start, int end, String comment, String type, Date expire) {
+		this.cidr = cidr;
+		this.start = start;
+		this.end = end;
+		this.comment = comment;
+		this.type = type;
+		this.expire = expire;
+	}
 
 	public String getCidr() {
 		return cidr;
@@ -50,7 +61,14 @@ public class DataCIDR extends Data {
 	}
 	
 	private int ip2long(String ip) {
-		// TODO ip to long
-		return 0;
+		// TODO: Make it work, and possibly move to some misc class
+		return -1;
+	}
+
+	@Override
+	public String toString() {
+		return "DataCIDR [cidr=" + cidr + ", start=" + start + ", end=" + end
+				+ ", comment=" + comment + ", type=" + type + ", expire="
+				+ expire + "]";
 	}
 }
