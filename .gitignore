@@ -6,3 +6,9 @@ bin/
 .classpath
 .project
 .settings/
+
+# beautiful vim leftovers
+*.swp
+
+# No idea...
+*~
