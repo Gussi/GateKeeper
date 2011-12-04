@@ -34,8 +34,9 @@ public class DatasourceMySQL extends Datasource {
 	}
 
 	public boolean add(DataCIDR data) {
+		PreparedStatement ps = null;
 		try {
-			PreparedStatement ps = this.db().prepareStatement("REPLACE INTO `whitelist_cidr` VALUES (?, ?, ?, ?, ?, ?)");
+			ps = this.db().prepareStatement("REPLACE INTO `whitelist_cidr` VALUES (?, ?, ?, ?, ?, ?)");
 			ps.setString(1, data.getCidr());
 			ps.setInt(2, data.getStart());
 			ps.setInt(3, data.getEnd());
@@ -45,13 +46,22 @@ public class DatasourceMySQL extends Datasource {
 			return ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
-	
+
 	public boolean add(DataPlayer data) {
+		PreparedStatement ps = null;
 		try {
-			PreparedStatement ps = this.db().prepareStatement("REPLACE INTO `whitelist_player` VALUES (?, ?, ?, ?)");
+			ps = this.db().prepareStatement("REPLACE INTO `whitelist_player` VALUES (?, ?, ?, ?)");
 			ps.setString(1, data.getPlayer());
 			ps.setString(2, data.getComment());
 			ps.setString(3, data.getType().toString());
@@ -59,28 +69,54 @@ public class DatasourceMySQL extends Datasource {
 			return ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
-	
+
 	public boolean remove(DataCIDR data) {
+		PreparedStatement ps = null;
 		try {
-			PreparedStatement ps = this.db().prepareStatement("DELETE FROM `whitelist_cidr` WHERE `cidr` = ?");
+			ps = this.db().prepareStatement("DELETE FROM `whitelist_cidr` WHERE `cidr` = ?");
 			ps.setString(1, data.getCidr());
 			return ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
-	
+
 	public boolean remove(DataPlayer data) {
+		PreparedStatement ps = null;
 		try {
-			PreparedStatement ps = this.db().prepareStatement("DELETE FROM `whitelist_player` WHERE `player` = ?");
+			ps = this.db().prepareStatement("DELETE FROM `whitelist_player` WHERE `player` = ?");
 			ps.setString(1, data.getPlayer());
 			return ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
@@ -95,7 +131,7 @@ public class DatasourceMySQL extends Datasource {
 		}
 		return null;
 	}
-	
+
 	private static String getSQL(String table) {
 		InputStream is = null;
 		BufferedReader br = null;
@@ -127,9 +163,10 @@ public class DatasourceMySQL extends Datasource {
 	@Override
 	public Set<Data> check(Player player) {
 		Set<Data> data = new HashSet<Data>();
+		PreparedStatement ps = null;
 
 		try {
-			PreparedStatement ps = this.db().prepareStatement("SELECT * FROM `whitelist_player` WHERE `player` = ?");
+			ps = this.db().prepareStatement("SELECT * FROM `whitelist_player` WHERE `player` = ?");
 			ps.setString(1, player.getName());
 			ps.execute();
 			ResultSet rs = ps.getResultSet();
@@ -138,10 +175,18 @@ public class DatasourceMySQL extends Datasource {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		try {
-			PreparedStatement ps = this.db().prepareStatement("SELECT * FROM `whitelist_cidr` WHERE (`start` <= ? AND `end` <= ?)");
+			ps = this.db().prepareStatement("SELECT * FROM `whitelist_cidr` WHERE (`start` <= ? AND `end` <= ?)");
 			int ip = 0;
 			ps.setInt(1, ip);
 			ps.setInt(2, ip);
@@ -152,6 +197,14 @@ public class DatasourceMySQL extends Datasource {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return data;
 	}
