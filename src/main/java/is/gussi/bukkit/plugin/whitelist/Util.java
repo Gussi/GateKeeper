@@ -74,7 +74,7 @@ public final class Util {
 	}
 
 	/**
-	 * Convert something like 1Y2M3w4d5h6m7s to seconds
+	 * Convert something like 1Y2M3w4d5h6m7s to milliseconds
 	 *
 	 * @param time
 	 * @return
@@ -141,6 +141,6 @@ public final class Util {
 				throw new Exception("Invalid time format");
 			}
 		}
-		return seconds;
+		return seconds*1000;
 	}
 }

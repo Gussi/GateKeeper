@@ -29,7 +29,7 @@ public class CommandWhitelist implements CommandExecutor {
 		if(args.length > 2) {
 			try {
 				long time = Util.getTime(args[2]);
-				data.setExpire(new Date(time*1000 + new Date().getTime()));
+				data.setExpire(new Date(time + new Date().getTime()));
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -41,17 +41,15 @@ public class CommandWhitelist implements CommandExecutor {
 				if(Whitelist.plugin.ds.add(data)) {
 					cs.sendMessage("Added");
 					return true;
-				} else {
-					cs.sendMessage("Unable to add...");
 				}
+				cs.sendMessage("Unable to add...");
 				break;
 			case REMOVE:
 				if(Whitelist.plugin.ds.remove(data)) {
 					cs.sendMessage("Removed");
 					return true;
-				} else {
-					cs.sendMessage("Unable to remove...");
 				}
+				cs.sendMessage("Unable to remove...");
 				break;
 			case CHECK:
 				break;

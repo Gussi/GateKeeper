@@ -28,7 +28,7 @@ public class CommandBlacklist implements CommandExecutor {
 		if(args.length > 2) {
 			try {
 				long time = Util.getTime(args[2]);
-				data.setExpire(new Date(time*1000 + new Date().getTime()));
+				data.setExpire(new Date(time + new Date().getTime()));
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
