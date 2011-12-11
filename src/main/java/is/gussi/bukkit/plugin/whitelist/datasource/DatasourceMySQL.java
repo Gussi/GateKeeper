@@ -38,12 +38,12 @@ public class DatasourceMySQL extends Datasource {
 		try {
 			ps = this.db().prepareStatement("REPLACE INTO `whitelist_cidr` VALUES (?, ?, ?, ?, ?, ?)");
 			ps.setString(1, data.getCidr());
-			ps.setInt(2, data.getStart());
-			ps.setInt(3, data.getEnd());
+			ps.setLong(2, data.getStart());
+			ps.setLong(3, data.getEnd());
 			ps.setString(4, data.getComment());
 			ps.setString(5, data.getType().toString());
 			ps.setLong(6, data.getExpire().getTime()/1000);
-			return ps.execute();
+			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -66,7 +66,7 @@ public class DatasourceMySQL extends Datasource {
 			ps.setString(2, data.getComment());
 			ps.setString(3, data.getType().toString());
 			ps.setLong(4, data.getExpire().getTime()/1000);
-			return ps.execute();
+			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -86,7 +86,7 @@ public class DatasourceMySQL extends Datasource {
 		try {
 			ps = this.db().prepareStatement("DELETE FROM `whitelist_cidr` WHERE `cidr` = ?");
 			ps.setString(1, data.getCidr());
-			return ps.execute();
+			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -106,7 +106,7 @@ public class DatasourceMySQL extends Datasource {
 		try {
 			ps = this.db().prepareStatement("DELETE FROM `whitelist_player` WHERE `player` = ?");
 			ps.setString(1, data.getPlayer());
-			return ps.execute();
+			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -186,10 +186,10 @@ public class DatasourceMySQL extends Datasource {
 		}
 
 		try {
-			ps = this.db().prepareStatement("SELECT * FROM `whitelist_cidr` WHERE (`start` <= ? AND `end` <= ?)");
-			int ip = 0;
-			ps.setInt(1, ip);
-			ps.setInt(2, ip);
+			ps = this.db().prepareStatement("SELECT * FROM `whitelist_cidr` WHERE (`start` <= ? AND ? <= `end`)");
+			long ip = DataCIDR.ip2long(player.getAddress().getAddress().getHostAddress().toString());
+			ps.setLong(1, ip);
+			ps.setLong(2, ip);
 			ps.execute();
 			ResultSet rs = ps.getResultSet();
 			while(rs.next()) {
@@ -231,8 +231,8 @@ public class DatasourceMySQL extends Datasource {
 		try {
 			data = new DataCIDR(
 				result.getString(1),
-				result.getInt(2),
-				result.getInt(3),
+				result.getLong(2),
+				result.getLong(3),
 				result.getString(4),
 				result.getString(5),
 				new Date(Integer.parseInt(result.getString(6)))

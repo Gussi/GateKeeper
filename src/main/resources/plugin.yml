@@ -1,7 +1,7 @@
 name: Whitelist
 main: is.gussi.bukkit.plugin.whitelist.Whitelist
 version: 0.1
-website: http://gussi.is/
+website: http://github.com/gussi/Whitelist
 author: Gussi
 description: Whitelist plugin for bukkit
 commands:
@@ -11,5 +11,5 @@ commands:
     aliases: [wl]
   blacklist:
     description: Blacklist management
-    usage: /<command> [add/remove/info] [ip/cidr/player]
+    usage: /<command> [add/remove/check] [ip/cidr/player]
     aliases: [bl]

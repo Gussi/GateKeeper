@@ -7,8 +7,7 @@ import org.bukkit.command.CommandSender;
 public class CommandBlacklist implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender commandsender, Command command, String alias, String[] args) {
-		// TODO Auto-generated method stub
+	public boolean onCommand(CommandSender cs, Command command, String alias, String[] args) {
 		return false;
 	}
 }

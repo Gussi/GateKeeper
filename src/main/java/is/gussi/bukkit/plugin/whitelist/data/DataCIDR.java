@@ -5,19 +5,33 @@ import java.util.Date;
 import org.bukkit.entity.Player;
 
 import is.gussi.bukkit.plugin.whitelist.Data;
+import is.gussi.bukkit.plugin.whitelist.Whitelist;
 
 public class DataCIDR extends Data {
 	private String cidr = "0.0.0.0/0";
-	private int start = 0;
-	private int end = 0;
-	
-	public DataCIDR(String cidr, int start, int end, String comment, String type, Date expire) {
+	private long start = 0;
+	private long end = 0;
+	private String comment;
+	private String type;
+	private Date expire;
+
+	public DataCIDR(String cidr, long start, long end, String comment, String type, Date expire) {
 		this.cidr = cidr;
 		this.start = start;
 		this.end = end;
 		this.comment = comment;
 		this.type = type;
 		this.expire = expire;
+	}
+
+	public DataCIDR(String cidr) {
+		this.cidr = cidr;
+		String[] ip = cidr.split("/");
+		this.start = ip2long(ip[0]);
+		Whitelist.log.info("Math1: " + Integer.toString(32-Integer.parseInt(ip[1])));
+		Whitelist.log.info("Math2: " + Integer.toString((int)Math.pow(2, 32-Integer.parseInt(ip[1]))));
+		this.end = this.start + (int)Math.pow(2, 32-Integer.parseInt(ip[1]));
+		Whitelist.log.info("result: " + this.end);
 	}
 
 	public String getCidr() {
@@ -29,7 +43,7 @@ public class DataCIDR extends Data {
 		return this;
 	}
 
-	public int getStart() {
+	public long getStart() {
 		return start;
 	}
 
@@ -38,7 +52,7 @@ public class DataCIDR extends Data {
 		return this;
 	}
 
-	public int getEnd() {
+	public long getEnd() {
 		return end;
 	}
 
@@ -53,16 +67,21 @@ public class DataCIDR extends Data {
 			return false;
 		}
 		Player player = (Player)obj;
-		int ip = this.ip2long(player.getAddress().getAddress().getHostAddress());
+		long ip = ip2long(player.getAddress().getAddress().getHostAddress());
 		if(start <= ip && ip <= end) {
 			return true;
 		}
 		return false;
 	}
-	
-	private int ip2long(String ip) {
-		// TODO: Make it work, and possibly move to some misc class
-		return -1;
+
+	public static long ip2long(String ip) {
+		String[] part = ip.split("\\.");
+		long num = 0;
+		for (int i=0;i<part.length;i++) {
+            int power = 3-i;
+            num += ((Integer.parseInt(part[i])%256 * Math.pow(256,power)));
+        }
+		return num;
 	}
 
 	@Override
