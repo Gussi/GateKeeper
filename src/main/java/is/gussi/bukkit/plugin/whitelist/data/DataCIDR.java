@@ -5,7 +5,7 @@ import java.util.Date;
 import org.bukkit.entity.Player;
 
 import is.gussi.bukkit.plugin.whitelist.Data;
-import is.gussi.bukkit.plugin.whitelist.Whitelist;
+import is.gussi.bukkit.plugin.whitelist.Util;
 
 public class DataCIDR extends Data {
 	private String cidr = "0.0.0.0/0";
@@ -27,11 +27,8 @@ public class DataCIDR extends Data {
 	public DataCIDR(String cidr) {
 		this.cidr = cidr;
 		String[] ip = cidr.split("/");
-		this.start = ip2long(ip[0]);
-		Whitelist.log.info("Math1: " + Integer.toString(32-Integer.parseInt(ip[1])));
-		Whitelist.log.info("Math2: " + Integer.toString((int)Math.pow(2, 32-Integer.parseInt(ip[1]))));
+		this.start = Util.ip2long(ip[0]);
 		this.end = this.start + (int)Math.pow(2, 32-Integer.parseInt(ip[1]));
-		Whitelist.log.info("result: " + this.end);
 	}
 
 	public String getCidr() {
@@ -63,25 +60,20 @@ public class DataCIDR extends Data {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Player)) {
-			return false;
+		if(obj instanceof Player) {
+			Player player = (Player)obj;
+			long ip = Util.ip2long(player.getAddress().getAddress().getHostAddress());
+			if(start <= ip && ip <= end) {
+				return true;
+			}
 		}
-		Player player = (Player)obj;
-		long ip = ip2long(player.getAddress().getAddress().getHostAddress());
-		if(start <= ip && ip <= end) {
-			return true;
+		if(obj instanceof DataCIDR) {
+			DataCIDR data = (DataCIDR)obj;
+			if(data.getCidr() == this.cidr) {
+				return true;
+			}
 		}
 		return false;
-	}
-
-	public static long ip2long(String ip) {
-		String[] part = ip.split("\\.");
-		long num = 0;
-		for (int i=0;i<part.length;i++) {
-            int power = 3-i;
-            num += ((Integer.parseInt(part[i])%256 * Math.pow(256,power)));
-        }
-		return num;
 	}
 
 	@Override

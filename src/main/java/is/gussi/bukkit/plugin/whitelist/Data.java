@@ -35,6 +35,4 @@ public abstract class Data {
 		this.expire = expire;
 		return this;
 	}
-
-	
 }

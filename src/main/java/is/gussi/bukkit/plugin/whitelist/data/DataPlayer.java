@@ -7,9 +7,15 @@ import org.bukkit.entity.Player;
 import is.gussi.bukkit.plugin.whitelist.Data;
 
 public class DataPlayer extends Data {
-
 	private String player;
+	private String comment;
+	private String type;
+	private Date expire;
 	
+	public DataPlayer(String player) {
+		this.player = player;
+	}
+
 	public DataPlayer(String player, String comment, String type, Date expire) {
 		this.player = player;
 		this.comment = comment;
@@ -28,12 +34,17 @@ public class DataPlayer extends Data {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Player)) {
-			return false;
+		if(obj instanceof Player) {
+			Player player = (Player)obj;
+			if(player.getName().equals(this.player)) {
+				return true;
+			}
 		}
-		Player player = (Player)obj;
-		if(player.getName().equals(this.player)) {
-			return true;
+		if(obj instanceof DataPlayer) {
+			DataPlayer data = (DataPlayer)obj;
+			if(data.getPlayer().equals(this.player)) {
+				return true;
+			}
 		}
 		return false;
 	}

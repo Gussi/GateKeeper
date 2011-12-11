@@ -2,6 +2,7 @@ package is.gussi.bukkit.plugin.whitelist.datasource;
 
 import is.gussi.bukkit.plugin.whitelist.Data;
 import is.gussi.bukkit.plugin.whitelist.Datasource;
+import is.gussi.bukkit.plugin.whitelist.Util;
 import is.gussi.bukkit.plugin.whitelist.Whitelist;
 import is.gussi.bukkit.plugin.whitelist.data.DataCIDR;
 import is.gussi.bukkit.plugin.whitelist.data.DataPlayer;
@@ -84,8 +85,9 @@ public class DatasourceMySQL extends Datasource {
 	public boolean remove(DataCIDR data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("DELETE FROM `whitelist_cidr` WHERE `cidr` = ?");
+			ps = this.db().prepareStatement("DELETE FROM `whitelist_cidr` WHERE `cidr` = ? AND `type` = ?");
 			ps.setString(1, data.getCidr());
+			ps.setString(2, data.getType());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,8 +106,9 @@ public class DatasourceMySQL extends Datasource {
 	public boolean remove(DataPlayer data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("DELETE FROM `whitelist_player` WHERE `player` = ?");
+			ps = this.db().prepareStatement("DELETE FROM `whitelist_player` WHERE `player` = ? AND `type` = ?");
 			ps.setString(1, data.getPlayer());
+			ps.setString(2, data.getType());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -187,7 +190,7 @@ public class DatasourceMySQL extends Datasource {
 
 		try {
 			ps = this.db().prepareStatement("SELECT * FROM `whitelist_cidr` WHERE (`start` <= ? AND ? <= `end`)");
-			long ip = DataCIDR.ip2long(player.getAddress().getAddress().getHostAddress().toString());
+			long ip = Util.ip2long(player.getAddress().getAddress().getHostAddress().toString());
 			ps.setLong(1, ip);
 			ps.setLong(2, ip);
 			ps.execute();
