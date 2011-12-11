@@ -11,9 +11,6 @@ public class DataCIDR extends Data {
 	private String cidr = "0.0.0.0/0";
 	private long start = 0;
 	private long end = 0;
-	private String comment;
-	private String type;
-	private Date expire;
 
 	public DataCIDR(String cidr, long start, long end, String comment, String type, Date expire) {
 		this.cidr = cidr;

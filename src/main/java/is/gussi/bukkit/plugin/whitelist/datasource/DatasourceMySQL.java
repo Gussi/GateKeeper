@@ -219,7 +219,7 @@ public class DatasourceMySQL extends Datasource {
 				result.getString(1),
 				result.getString(2),
 				result.getString(3),
-				new Date(Integer.parseInt(result.getString(4))*1000)
+				new Date(Long.parseLong(result.getString(4))*1000)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -238,7 +238,7 @@ public class DatasourceMySQL extends Datasource {
 				result.getLong(3),
 				result.getString(4),
 				result.getString(5),
-				new Date(Integer.parseInt(result.getString(6))*1000)
+				new Date(Long.parseLong(result.getString(6))*1000)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

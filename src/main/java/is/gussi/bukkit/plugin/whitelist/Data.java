@@ -3,14 +3,14 @@ package is.gussi.bukkit.plugin.whitelist;
 import java.util.Date;
 
 public abstract class Data {
-	protected String comment = "";
-	protected String type = "whitelist";
+	protected String comment;
+	protected String type;
 	protected Date expire = new Date();
 	
 	abstract public boolean equals(Object obj);
 
 	public String getComment() {
-		return comment;
+		return this.comment;
 	}
 
 	public Data setComment(String comment) {
@@ -19,7 +19,7 @@ public abstract class Data {
 	}
 
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 	public Data setType(String type) {
@@ -28,7 +28,7 @@ public abstract class Data {
 	}
 
 	public Date getExpire() {
-		return expire;
+		return this.expire;
 	}
 
 	public Data setExpire(Date expire) {

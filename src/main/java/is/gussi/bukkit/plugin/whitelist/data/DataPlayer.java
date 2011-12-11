@@ -8,9 +8,6 @@ import is.gussi.bukkit.plugin.whitelist.Data;
 
 public class DataPlayer extends Data {
 	private String player;
-	private String comment;
-	private String type;
-	private Date expire;
 	
 	public DataPlayer(String player) {
 		this.player = player;

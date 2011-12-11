@@ -5,6 +5,7 @@ import java.util.Date;
 import is.gussi.bukkit.plugin.whitelist.Data;
 import is.gussi.bukkit.plugin.whitelist.Util;
 import is.gussi.bukkit.plugin.whitelist.Util.CommandAction;
+import is.gussi.bukkit.plugin.whitelist.Whitelist;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,10 +38,18 @@ public class CommandBlacklist implements CommandExecutor {
 		data.setType("blacklist");
 		switch(action) {
 			case ADD:
-				// TODO: Add, if successful check all players and kick
+				if(Whitelist.plugin.ds.add(data)) {
+					cs.sendMessage("Blacklisted...");
+					return true;
+				}
+				cs.sendMessage("Unable to blacklist");
 				break;
 			case REMOVE:
-				// TODO: Remove
+				if(Whitelist.plugin.ds.remove(data)) {
+					cs.sendMessage("Remove blacklisted entry...");
+					return true;
+				}
+				cs.sendMessage("Unable to remove blacklisted entry");
 				break;
 			case CHECK:
 				// TODO: Check
