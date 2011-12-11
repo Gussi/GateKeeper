@@ -72,4 +72,75 @@ public final class Util {
 			return new DataPlayer(data);
 		}
 	}
+
+	/**
+	 * Convert something like 1Y2M3w4d5h6m7s to seconds
+	 *
+	 * @param time
+	 * @return
+	 * @throws Exception Invalid time format
+	 */
+	public static long getTime(String time) throws Exception {
+		long seconds = 0;
+		StringBuilder stack = new StringBuilder();
+		for(int i = 0; i < time.length(); ++i) {
+			if(Character.isDigit(time.charAt(i))) {
+				stack.append(time.charAt(i));
+			} else {
+				int s = Integer.parseInt(stack.toString());
+				stack = new StringBuilder();
+
+				// Seconds
+				if(time.charAt(i) == 's') {
+					seconds += s;
+					continue;
+				}
+
+				// Minutes
+				s = s * 60;
+				if(time.charAt(i) == 'm') {
+					seconds += s;
+					continue;
+				}
+
+				// Hours
+				s = s * 60;
+				if(time.charAt(i) == 'h') {
+					seconds += s;
+					continue;
+				}
+
+				// Days
+				s = s * 24;
+				if(time.charAt(i) == 'd') {
+					seconds += s;
+					continue;
+				}
+
+				// Weeks
+				s = s * 7;
+				if(time.charAt(i) == 'w') {
+					seconds += s;
+					continue;
+				}
+
+				// Months
+				s = s * 4;
+				if(time.charAt(i) == 'M') {
+					seconds += s;
+					continue;
+				}
+
+				// Years
+				s = s * 12;
+				if(time.charAt(i) == 'Y') {
+					seconds += s;
+					continue;
+				}
+
+				throw new Exception("Invalid time format");
+			}
+		}
+		return seconds;
+	}
 }

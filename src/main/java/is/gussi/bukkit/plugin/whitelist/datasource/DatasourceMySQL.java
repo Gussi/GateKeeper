@@ -42,7 +42,7 @@ public class DatasourceMySQL extends Datasource {
 			ps.setLong(2, data.getStart());
 			ps.setLong(3, data.getEnd());
 			ps.setString(4, data.getComment());
-			ps.setString(5, data.getType().toString());
+			ps.setString(5, data.getType());
 			ps.setLong(6, data.getExpire().getTime()/1000);
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
@@ -65,7 +65,7 @@ public class DatasourceMySQL extends Datasource {
 			ps = this.db().prepareStatement("REPLACE INTO `whitelist_player` VALUES (?, ?, ?, ?)");
 			ps.setString(1, data.getPlayer());
 			ps.setString(2, data.getComment());
-			ps.setString(3, data.getType().toString());
+			ps.setString(3, data.getType());
 			ps.setLong(4, data.getExpire().getTime()/1000);
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
@@ -219,7 +219,7 @@ public class DatasourceMySQL extends Datasource {
 				result.getString(1),
 				result.getString(2),
 				result.getString(3),
-				new Date(Integer.parseInt(result.getString(4)))
+				new Date(Integer.parseInt(result.getString(4))*1000)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -238,7 +238,7 @@ public class DatasourceMySQL extends Datasource {
 				result.getLong(3),
 				result.getString(4),
 				result.getString(5),
-				new Date(Integer.parseInt(result.getString(6)))
+				new Date(Integer.parseInt(result.getString(6))*1000)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

@@ -1,5 +1,7 @@
 package is.gussi.bukkit.plugin.whitelist.command;
 
+import java.util.Date;
+
 import is.gussi.bukkit.plugin.whitelist.Data;
 import is.gussi.bukkit.plugin.whitelist.Util;
 import is.gussi.bukkit.plugin.whitelist.Util.*;
@@ -23,8 +25,17 @@ public class CommandWhitelist implements CommandExecutor {
 		if(action == null || data == null) {
 			return false;
 		}
-		data.setType("whitelist");
 
+		if(args.length > 2) {
+			try {
+				long time = Util.getTime(args[2]);
+				data.setExpire(new Date(time*1000 + new Date().getTime()));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		data.setType("whitelist");
 		switch(action) {
 			case ADD:
 				if(Whitelist.plugin.ds.add(data)) {
@@ -43,7 +54,6 @@ public class CommandWhitelist implements CommandExecutor {
 				}
 				break;
 			case CHECK:
-				// TODO: Check
 				break;
 		}
 		return false;
