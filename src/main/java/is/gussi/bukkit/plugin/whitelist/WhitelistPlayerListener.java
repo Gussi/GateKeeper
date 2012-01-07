@@ -20,13 +20,13 @@ public class WhitelistPlayerListener extends PlayerListener {
 				Whitelist.log.info("Blacklisted brah! Get out!");
 				event.setJoinMessage(null);
 				SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-				player.kickPlayer(ChatColor.RED + "Blacklisted til " + ChatColor.DARK_RED + formatter.format(d.getExpire()) + ChatColor.RED + " vegna: " + ChatColor.GOLD + d.getComment());
+				player.kickPlayer(ChatColor.RED + "Blacklisted till: " + ChatColor.DARK_RED + formatter.format(d.getExpire()) + ChatColor.RED + " reason: " + ChatColor.GOLD + d.getComment());
 				return;
 			} else if(d.getType().equals("whitelist")) {
 				return;
 			}
 		}
 		event.setJoinMessage(null);
-		player.kickPlayer(ChatColor.RED + "Ekki á whitelist :/");
+		player.kickPlayer(ChatColor.RED + "Not whitelisted...");
 	}
 }

@@ -3,8 +3,8 @@ package is.gussi.bukkit.plugin.whitelist;
 import java.util.Date;
 
 public abstract class Data {
-	protected String comment;
-	protected String type;
+	protected String comment = "";
+	protected String type = "";
 	protected Date expire = new Date();
 	
 	abstract public boolean equals(Object obj);

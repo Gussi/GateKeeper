@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+//TODO: Make abstract parent class for this and CommandWhitelist, with common methods
 public class CommandWhitelist implements CommandExecutor {
 
 	@Override
