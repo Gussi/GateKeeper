@@ -34,6 +34,7 @@ public class CommandWhitelist extends AbstractCommand implements CommandExecutor
 		}
 
 		data.setType("whitelist");
+		data.setSource(cs.getName());
 		switch(action) {
 			case ADD:
 				if(Whitelist.plugin.ds.add(data)) {

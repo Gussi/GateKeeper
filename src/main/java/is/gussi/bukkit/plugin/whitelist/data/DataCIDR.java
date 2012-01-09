@@ -12,13 +12,14 @@ public class DataCIDR extends Data {
 	private long start = 0;
 	private long end = 0;
 
-	public DataCIDR(String cidr, long start, long end, String comment, String type, Date expire) {
+	public DataCIDR(String cidr, long start, long end, String comment, String type, Date expire, String source) {
 		this.cidr = cidr;
 		this.start = start;
 		this.end = end;
 		this.comment = comment;
 		this.type = type;
 		this.expire = expire;
+		this.source = source;
 	}
 
 	public DataCIDR(String cidr) {

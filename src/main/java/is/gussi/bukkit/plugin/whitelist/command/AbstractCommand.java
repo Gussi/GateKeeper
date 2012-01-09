@@ -122,6 +122,12 @@ public abstract class AbstractCommand {
 					seconds += s;
 					continue;
 				}
+				
+				// Permanent
+				if(time.charAt(i) == 'P') {
+					seconds = 0;
+					break;
+				}
 
 				throw new Exception("Invalid time format");
 			}

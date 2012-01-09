@@ -37,13 +37,14 @@ public class DatasourceMySQL extends Datasource {
 	public boolean add(DataCIDR data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("REPLACE INTO `whitelist_cidr` VALUES (?, ?, ?, ?, ?, ?)");
+			ps = this.db().prepareStatement("REPLACE INTO `whitelist_cidr` VALUES (?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, data.getCidr());
 			ps.setLong(2, data.getStart());
 			ps.setLong(3, data.getEnd());
 			ps.setString(4, data.getComment());
 			ps.setString(5, data.getType());
 			ps.setLong(6, data.getExpire().getTime()/1000);
+			ps.setString(7, data.getSource());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,11 +63,12 @@ public class DatasourceMySQL extends Datasource {
 	public boolean add(DataPlayer data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("REPLACE INTO `whitelist_player` VALUES (?, ?, ?, ?)");
+			ps = this.db().prepareStatement("REPLACE INTO `whitelist_player` VALUES (?, ?, ?, ?, ?)");
 			ps.setString(1, data.getPlayer());
 			ps.setString(2, data.getComment());
 			ps.setString(3, data.getType());
 			ps.setLong(4, data.getExpire().getTime()/1000);
+			ps.setString(5, data.getSource());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -219,7 +221,8 @@ public class DatasourceMySQL extends Datasource {
 				result.getString(1),
 				result.getString(2),
 				result.getString(3),
-				new Date(Long.parseLong(result.getString(4))*1000)
+				new Date(Long.parseLong(result.getString(4))*1000),
+				result.getString(5)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -238,7 +241,8 @@ public class DatasourceMySQL extends Datasource {
 				result.getLong(3),
 				result.getString(4),
 				result.getString(5),
-				new Date(Long.parseLong(result.getString(6))*1000)
+				new Date(Long.parseLong(result.getString(6))*1000),
+				result.getString(7)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

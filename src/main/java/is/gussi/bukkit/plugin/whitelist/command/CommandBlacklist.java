@@ -21,6 +21,7 @@ public class CommandBlacklist extends AbstractCommand implements CommandExecutor
 		Data data = this.parseData(args[1]);
 
 		if(action == null || data == null) {
+			// TODO: Send error msg to user
 			return false;
 		}
 
@@ -29,11 +30,13 @@ public class CommandBlacklist extends AbstractCommand implements CommandExecutor
 				long time = this.parseTime(args[2]);
 				data.setExpire(new Date(time + new Date().getTime()));
 			} catch (Exception e1) {
+				// TODO: Send error msg to user
 				e1.printStackTrace();
 			}
 		}
 
 		data.setType("blacklist");
+		data.setSource(cs.getName());
 		switch(action) {
 			case ADD:
 				if(Whitelist.plugin.ds.add(data)) {

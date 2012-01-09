@@ -13,11 +13,12 @@ public class DataPlayer extends Data {
 		this.player = player;
 	}
 
-	public DataPlayer(String player, String comment, String type, Date expire) {
+	public DataPlayer(String player, String comment, String type, Date expire, String source) {
 		this.player = player;
 		this.comment = comment;
 		this.type = type;
 		this.expire = expire;
+		this.source = source;
 	}
 
 	public String getPlayer() {

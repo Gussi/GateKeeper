@@ -6,6 +6,7 @@ public abstract class Data {
 	protected String comment = "";
 	protected String type = "";
 	protected Date expire = new Date();
+	protected String source = "";
 	
 	abstract public boolean equals(Object obj);
 
@@ -33,6 +34,15 @@ public abstract class Data {
 
 	public Data setExpire(Date expire) {
 		this.expire = expire;
+		return this;
+	}
+	
+	public String getSource() {
+		return this.source;
+	}
+	
+	public Data setSource(String source) {
+		this.source = source;
 		return this;
 	}
 }

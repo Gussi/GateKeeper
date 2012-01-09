@@ -1,8 +1,12 @@
 package is.gussi.bukkit.plugin.whitelist;
 
 import is.gussi.bukkit.plugin.whitelist.command.*;
+import is.gussi.bukkit.plugin.whitelist.data.DataCIDR;
 import is.gussi.bukkit.plugin.whitelist.datasource.*;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import org.bukkit.Server;
@@ -33,6 +37,7 @@ public class Whitelist extends JavaPlugin {
 			this.registerDatasource();
 			this.registerCommands();
 			this.registerEvents();
+			this.loadIsNet();
 		} catch(Exception e) {
 			Whitelist.log.severe("Error while enabling " + this.getDescription().getName() + " v" + this.getDescription().getVersion() + " : " + e.toString());
 			getServer().getPluginManager().disablePlugin(this);
@@ -58,5 +63,27 @@ public class Whitelist extends JavaPlugin {
 
 	private void registerDatasource() {
 		this.ds = new DatasourceMySQL();
+	}
+	
+	// TODO: Move this to somewhere else
+	private void loadIsNet() {
+		URL url;
+		InputStream stream = null;
+		try {
+			url = new URL("http://www.rix.is/is-net.txt");
+			stream = url.openStream();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(stream != null) {
+			Scanner s = new Scanner(stream);
+			while(s.hasNextLine()) {
+				DataCIDR data = new DataCIDR(s.nextLine());
+				data.setType("whitelist");
+				data.setSource("isnet");
+				Whitelist.plugin.ds.add(data);
+			}
+		}
 	}
 }
