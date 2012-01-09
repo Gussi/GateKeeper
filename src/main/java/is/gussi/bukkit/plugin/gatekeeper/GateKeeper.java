@@ -17,9 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class GateKeeper extends JavaPlugin {
 	public static GateKeeper plugin;
 	public static Server server;
-	public final static Logger log = Logger.getLogger("Minecraft.Whitelist");
+	public static GateKeeperLogger log = null;
 	public Datasource ds;
-
 	private Listener playerListener = new GateKeeperPlayerListener();
 
 	@Override
@@ -30,7 +29,9 @@ public class GateKeeper extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		GateKeeper.plugin = this;
+		GateKeeper.log = this.new GateKeeperLogger();
 		GateKeeper.server = getServer();
+		GateKeeper.log.info("just testing...");
 
 		try {
 			this.initializeConfig();
@@ -64,6 +65,23 @@ public class GateKeeper extends JavaPlugin {
 	private void registerDatasource() {
 		this.ds = new DatasourceMySQL();
 	}
+
+	class GateKeeperLogger {
+		private final Logger log = Logger.getLogger("is.gussi.gatekeeper");
+		protected String prefix = "[GateKeeper]";
+		
+		public void info(String msg) {
+			this.log.info(this.prefix + " " + msg);
+		}
+		
+		public void warning(String msg) {
+			this.log.warning(this.prefix + " " + msg);
+		}
+		
+		public void severe(String msg) {
+			this.log.severe(this.prefix + " " + msg);
+		}
+	};
 	
 	// TODO: Move this to somewhere else
 	private void loadIsNet() {
