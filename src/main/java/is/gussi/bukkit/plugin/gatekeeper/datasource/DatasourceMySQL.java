@@ -1,11 +1,11 @@
-package is.gussi.bukkit.plugin.whitelist.datasource;
+package is.gussi.bukkit.plugin.gatekeeper.datasource;
 
-import is.gussi.bukkit.plugin.whitelist.Data;
-import is.gussi.bukkit.plugin.whitelist.Datasource;
-import is.gussi.bukkit.plugin.whitelist.Util;
-import is.gussi.bukkit.plugin.whitelist.Whitelist;
-import is.gussi.bukkit.plugin.whitelist.data.DataCIDR;
-import is.gussi.bukkit.plugin.whitelist.data.DataPlayer;
+import is.gussi.bukkit.plugin.gatekeeper.Data;
+import is.gussi.bukkit.plugin.gatekeeper.Datasource;
+import is.gussi.bukkit.plugin.gatekeeper.Util;
+import is.gussi.bukkit.plugin.gatekeeper.GateKeeper;
+import is.gussi.bukkit.plugin.gatekeeper.data.DataCIDR;
+import is.gussi.bukkit.plugin.gatekeeper.data.DataPlayer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -127,12 +127,12 @@ public class DatasourceMySQL extends Datasource {
 	}
 
 	public Connection db() {
-		FileConfiguration fc = Whitelist.plugin.getConfig();
+		FileConfiguration fc = GateKeeper.plugin.getConfig();
 		try {
 			return DriverManager.getConnection("jdbc:mysql://" + fc.getString("mysql.host") + ":" + Integer.toString(fc.getInt("mysql.port")) + "/" + fc.getString("mysql.database") + "?autoReconnect=true&user=" + fc.getString("mysql.username") + "&password=" + fc.getString("mysql.password"));
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			Whitelist.plugin.getServer().getPluginManager().disablePlugin(Whitelist.plugin);
+			GateKeeper.plugin.getServer().getPluginManager().disablePlugin(GateKeeper.plugin);
 		}
 		return null;
 	}
@@ -144,7 +144,7 @@ public class DatasourceMySQL extends Datasource {
 		StringBuilder sb = new StringBuilder();
 
 		try { 
-			is = Whitelist.class.getResourceAsStream("/sql/" + table);
+			is = GateKeeper.class.getResourceAsStream("/sql/" + table);
 			br = new BufferedReader(new InputStreamReader(is));
 			while (null != (line = br.readLine())) {
 				sb.append(line);

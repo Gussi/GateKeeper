@@ -1,8 +1,8 @@
-package is.gussi.bukkit.plugin.whitelist;
+package is.gussi.bukkit.plugin.gatekeeper;
 
-import is.gussi.bukkit.plugin.whitelist.command.*;
-import is.gussi.bukkit.plugin.whitelist.data.DataCIDR;
-import is.gussi.bukkit.plugin.whitelist.datasource.*;
+import is.gussi.bukkit.plugin.gatekeeper.command.*;
+import is.gussi.bukkit.plugin.gatekeeper.data.DataCIDR;
+import is.gussi.bukkit.plugin.gatekeeper.datasource.*;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -14,23 +14,23 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Whitelist extends JavaPlugin {
-	public static Whitelist plugin;
+public class GateKeeper extends JavaPlugin {
+	public static GateKeeper plugin;
 	public static Server server;
 	public final static Logger log = Logger.getLogger("Minecraft.Whitelist");
 	public Datasource ds;
 
-	private Listener playerListener = new WhitelistPlayerListener();
+	private Listener playerListener = new GateKeeperPlayerListener();
 
 	@Override
 	public void onDisable() {
-		Whitelist.log.info(this.getDescription().getName() + " v" + this.getDescription().getVersion() + " disabled");
+		GateKeeper.log.info(this.getDescription().getName() + " v" + this.getDescription().getVersion() + " disabled");
 	}
 
 	@Override
 	public void onEnable() {
-		Whitelist.plugin = this;
-		Whitelist.server = getServer();
+		GateKeeper.plugin = this;
+		GateKeeper.server = getServer();
 
 		try {
 			this.initializeConfig();
@@ -39,12 +39,12 @@ public class Whitelist extends JavaPlugin {
 			this.registerEvents();
 			this.loadIsNet();
 		} catch(Exception e) {
-			Whitelist.log.severe("Error while enabling " + this.getDescription().getName() + " v" + this.getDescription().getVersion() + " : " + e.toString());
+			GateKeeper.log.severe("Error while enabling " + this.getDescription().getName() + " v" + this.getDescription().getVersion() + " : " + e.toString());
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 
-		Whitelist.log.info(this.getDescription().getName() + " v" + this.getDescription().getVersion() + " enabled");
+		GateKeeper.log.info(this.getDescription().getName() + " v" + this.getDescription().getVersion() + " enabled");
 	}
 	
 	private void initializeConfig() {
@@ -82,7 +82,7 @@ public class Whitelist extends JavaPlugin {
 				DataCIDR data = new DataCIDR(s.nextLine());
 				data.setType("whitelist");
 				data.setSource("isnet");
-				Whitelist.plugin.ds.add(data);
+				GateKeeper.plugin.ds.add(data);
 			}
 		}
 	}

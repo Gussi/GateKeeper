@@ -1,9 +1,9 @@
-name: Whitelist
-main: is.gussi.bukkit.plugin.whitelist.Whitelist
+name: GateKeeper
+main: is.gussi.bukkit.plugin.gatekeeper.GateKeeper
 version: 0.1
-website: http://github.com/gussi/Whitelist
+website: http://github.com/gussi/GateKeeper
 author: Gussi
-description: Whitelist plugin for bukkit
+description: Yet another whitelist plugin for bukkit
 commands:
   whitelist:
     description: Whitelist management

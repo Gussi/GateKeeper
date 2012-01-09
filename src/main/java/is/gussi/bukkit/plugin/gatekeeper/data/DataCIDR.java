@@ -1,11 +1,11 @@
-package is.gussi.bukkit.plugin.whitelist.data;
+package is.gussi.bukkit.plugin.gatekeeper.data;
 
 import java.util.Date;
 
 import org.bukkit.entity.Player;
 
-import is.gussi.bukkit.plugin.whitelist.Data;
-import is.gussi.bukkit.plugin.whitelist.Util;
+import is.gussi.bukkit.plugin.gatekeeper.Data;
+import is.gussi.bukkit.plugin.gatekeeper.Util;
 
 public class DataCIDR extends Data {
 	private String cidr = "0.0.0.0/0";

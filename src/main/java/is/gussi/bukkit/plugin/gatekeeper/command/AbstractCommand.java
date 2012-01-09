@@ -1,8 +1,8 @@
-package is.gussi.bukkit.plugin.whitelist.command;
+package is.gussi.bukkit.plugin.gatekeeper.command;
 
-import is.gussi.bukkit.plugin.whitelist.Data;
-import is.gussi.bukkit.plugin.whitelist.data.DataCIDR;
-import is.gussi.bukkit.plugin.whitelist.data.DataPlayer;
+import is.gussi.bukkit.plugin.gatekeeper.Data;
+import is.gussi.bukkit.plugin.gatekeeper.data.DataCIDR;
+import is.gussi.bukkit.plugin.gatekeeper.data.DataPlayer;
 
 import java.util.regex.Pattern;
 

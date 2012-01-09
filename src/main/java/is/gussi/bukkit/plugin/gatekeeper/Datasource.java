@@ -1,11 +1,11 @@
-package is.gussi.bukkit.plugin.whitelist;
+package is.gussi.bukkit.plugin.gatekeeper;
 
 import java.util.Set;
 
 import org.bukkit.entity.Player;
 
-import is.gussi.bukkit.plugin.whitelist.data.DataCIDR;
-import is.gussi.bukkit.plugin.whitelist.data.DataPlayer;
+import is.gussi.bukkit.plugin.gatekeeper.data.DataCIDR;
+import is.gussi.bukkit.plugin.gatekeeper.data.DataPlayer;
 
 public abstract class Datasource {
 	abstract public boolean add(DataCIDR data);

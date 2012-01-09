@@ -1,9 +1,9 @@
-Whitelist
+GateKeeper
 =========
 
 The purpose of this plugin is two-fold; First and foremost provide extensible whitelist
 mechanism, accepting usernames, ip and ip ranges (cidr to begin with), supporting crud operations
-both via commands or from another plugin. Second would be blacklist, to negate any whitelist
+both via commands or from another plugins. Second would be blacklist, to negate any whitelist
 entry. 
 
 ### Datasources

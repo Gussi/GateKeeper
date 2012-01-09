@@ -1,4 +1,4 @@
-package is.gussi.bukkit.plugin.whitelist;
+package is.gussi.bukkit.plugin.gatekeeper;
 
 import java.util.Date;
 
