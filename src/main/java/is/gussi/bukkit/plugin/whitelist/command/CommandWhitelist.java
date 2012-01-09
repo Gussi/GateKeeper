@@ -37,6 +37,9 @@ public class CommandWhitelist extends AbstractCommand implements CommandExecutor
 		data.setSource(cs.getName());
 		switch(action) {
 			case ADD:
+				if(!cs.hasPermission("whitelist.wl.add")) {
+					return false;
+				}
 				if(Whitelist.plugin.ds.add(data)) {
 					cs.sendMessage("Added");
 					return true;
@@ -44,6 +47,9 @@ public class CommandWhitelist extends AbstractCommand implements CommandExecutor
 				cs.sendMessage("Unable to add...");
 				break;
 			case REMOVE:
+				if(!cs.hasPermission("whitelist.wl.remove")) {
+					return false;
+				}
 				if(Whitelist.plugin.ds.remove(data)) {
 					cs.sendMessage("Removed");
 					return true;
@@ -51,6 +57,9 @@ public class CommandWhitelist extends AbstractCommand implements CommandExecutor
 				cs.sendMessage("Unable to remove...");
 				break;
 			case CHECK:
+				if(!cs.hasPermission("whitelist.wl.check")) {
+					return false;
+				}
 				break;
 		}
 		return false;

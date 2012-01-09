@@ -14,10 +14,9 @@ public class WhitelistPlayerListener extends PlayerListener {
 		Player player = event.getPlayer();
 		Set<Data> matches = Whitelist.plugin.ds.check(player);
 		for(Data d : matches) {
-			Whitelist.log.info("Match: " + d.toString()); // Debug message
-			Whitelist.log.info("Type: " + d.getType());
+			Whitelist.log.info("[Whitelist] Match: " + d.toString());
 			if(d.getType().equals("blacklist")) {
-				Whitelist.log.info("Blacklisted brah! Get out!");
+				Whitelist.log.info("[Witelist] Player " + player.getName() + " blacklisted, rejected entry");
 				event.setJoinMessage(null);
 				SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 				player.kickPlayer(ChatColor.RED + "Blacklisted til " + ChatColor.GOLD + formatter.format(d.getExpire()) + ChatColor.RED + " vegna " + ChatColor.GOLD + d.getComment());
@@ -28,5 +27,6 @@ public class WhitelistPlayerListener extends PlayerListener {
 		}
 		event.setJoinMessage(null);
 		player.kickPlayer(ChatColor.GREEN + "Ekki á whitelist - http://forum.minecraft.is/");
+		Whitelist.log.info("[Whitelist] Player " + player.getName() + " not whitelisted, rejected entry");
 	}
 }

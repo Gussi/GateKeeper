@@ -39,6 +39,9 @@ public class CommandBlacklist extends AbstractCommand implements CommandExecutor
 		data.setSource(cs.getName());
 		switch(action) {
 			case ADD:
+				if(!cs.hasPermission("whitelist.bl.add")) {
+					return false;
+				}
 				if(Whitelist.plugin.ds.add(data)) {
 					cs.sendMessage("Blacklisted...");
 					return true;
@@ -46,6 +49,9 @@ public class CommandBlacklist extends AbstractCommand implements CommandExecutor
 				cs.sendMessage("Unable to blacklist");
 				break;
 			case REMOVE:
+				if(!cs.hasPermission("whitelist.bl.remove")) {
+					return false;
+				}
 				if(Whitelist.plugin.ds.remove(data)) {
 					cs.sendMessage("Remove blacklisted entry...");
 					return true;
@@ -53,6 +59,9 @@ public class CommandBlacklist extends AbstractCommand implements CommandExecutor
 				cs.sendMessage("Unable to remove blacklisted entry");
 				break;
 			case CHECK:
+				if(!cs.hasPermission("whitelist.bl.check")) {
+					return false;
+				}
 				// TODO: Check
 				break;
 		}
