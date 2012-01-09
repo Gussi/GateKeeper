@@ -3,4 +3,4 @@ mysql:
   port: 3306
   username: root
   password: root
-  database: minecraft
+  database: bukkit
