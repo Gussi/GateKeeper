@@ -39,11 +39,14 @@ public class GateKeeperCommand extends Command {
 			// Then shift one element off array, quite the hassle..
 			List<String> tmp_args = new ArrayList<String>(Arrays.asList(args));
 			tmp_args.remove(0);
-			args = (String[])tmp_args.toArray();
+			args = tmp_args.toArray(new String[0]);
 		}
 		
 		// Process whitelist command
 		if(label.equalsIgnoreCase("wl") || label.equalsIgnoreCase("whitelist")) {
+			if(args.length < 2) {
+				return this.cmdHelp(sender, command, label, args);
+			}
 			// Get defined action
 			CommandAction action = this.parseAction(args[0]);
 			if(action == null) {
@@ -51,7 +54,7 @@ public class GateKeeperCommand extends Command {
 			}
 			
 			Data data = this.parseData(args[1]);
-			if(args.length > 2) {
+			if(args.length == 3) {
 				try {
 					long time = this.parseTime(args[2]);
 					data.setExpire(new Date(time + new Date().getTime()));
@@ -60,9 +63,10 @@ public class GateKeeperCommand extends Command {
 				}
 			}
 			
+			data.setType("whitelist");
 			switch(action) {
 				case ADD:
-					if(!sender.hasPermission("whitelist.wl.add")) {
+					if(!sender.hasPermission("whitelist.whitelist.add")) {
 						return false;
 					}
 					if(GateKeeper.plugin.ds.add(data)) {
@@ -72,7 +76,7 @@ public class GateKeeperCommand extends Command {
 					sender.sendMessage("Unable to add...");
 					break;
 				case REMOVE:
-					if(!sender.hasPermission("gatekeeper.wl.remove")) {
+					if(!sender.hasPermission("gatekeeper.whitelist.remove")) {
 						return false;
 					}
 					if(GateKeeper.plugin.ds.remove(data)) {
@@ -94,8 +98,7 @@ public class GateKeeperCommand extends Command {
 	}
 	
 	private boolean cmdHelp(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-		// TODO: Help
-		sender.sendMessage(ChatColor.GRAY + "I should give you some help right now...");
+		sender.sendMessage(ChatColor.GRAY + "USAGE: /" + label + (label.equalsIgnoreCase("gk") || label.equalsIgnoreCase("gatekeeper") ? " <wl/bl>" : "") + " <add/rem> <user/ip/cidr> [expire]");
 		return true;
 	}
 	

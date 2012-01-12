@@ -5,15 +5,7 @@ website: http://github.com/gussi/GateKeeper
 author: Gussi
 description: Yet another whitelist plugin for bukkit
 commands:
-  whitelist:
-    description: Whitelist management
-    usage: /<command> [add/remove/check] [ip/cidr/player]
-    aliases: [wl]
-  blacklist:
-    description: Blacklist management
-    usage: /<command> [add/remove/check] [ip/cidr/player]
-    aliases: [bl]
   gatekeeper:
     description: GateKeeper management
     usage: /<command> help
-    aliases: [gk]
+    aliases: [gk, wl, bl, whitelist, blacklist]
