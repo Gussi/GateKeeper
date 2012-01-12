@@ -13,3 +13,7 @@ commands:
     description: Blacklist management
     usage: /<command> [add/remove/check] [ip/cidr/player]
     aliases: [bl]
+  gatekeeper:
+    description: GateKeeper management
+    usage: /<command> help
+    aliases: [gk]

@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class GateKeeper extends JavaPlugin {
 	public static GateKeeper plugin;
 	public static Server server;
-	public static GateKeeperLogger log = null;
+	public static final GateKeeperLogger log = new GateKeeperLogger();
 	public Datasource ds;
 	private Listener playerListener = new GateKeeperPlayerListener();
 
@@ -29,9 +29,7 @@ public class GateKeeper extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		GateKeeper.plugin = this;
-		GateKeeper.log = this.new GateKeeperLogger();
 		GateKeeper.server = getServer();
-		GateKeeper.log.info("just testing...");
 
 		try {
 			this.initializeConfig();
@@ -40,7 +38,8 @@ public class GateKeeper extends JavaPlugin {
 			this.registerEvents();
 			this.loadIsNet();
 		} catch(Exception e) {
-			GateKeeper.log.severe("Error while enabling " + this.getDescription().getName() + " v" + this.getDescription().getVersion() + " : " + e.toString());
+			GateKeeper.log.severe("Error while enabling " + this.getDescription().getName() + " v" + this.getDescription().getVersion());
+			e.printStackTrace();
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -54,8 +53,7 @@ public class GateKeeper extends JavaPlugin {
 	}
 
 	private void registerCommands() {
-		getCommand("whitelist").setExecutor(new CommandWhitelist());
-		getCommand("blacklist").setExecutor(new CommandBlacklist());
+		getCommand("gatekeeper").setExecutor(new GateKeeperCommand());
 	}
 
 	private void registerEvents() {
@@ -66,20 +64,20 @@ public class GateKeeper extends JavaPlugin {
 		this.ds = new DatasourceMySQL();
 	}
 
-	class GateKeeperLogger {
+	public static class GateKeeperLogger {
 		private final Logger log = Logger.getLogger("is.gussi.gatekeeper");
-		protected String prefix = "[GateKeeper]";
-		
+		protected String prefix = "[GateKeeper] ";
+
 		public void info(String msg) {
-			this.log.info(this.prefix + " " + msg);
+			this.log.info(this.prefix + msg);
 		}
-		
+
 		public void warning(String msg) {
-			this.log.warning(this.prefix + " " + msg);
+			this.log.warning(this.prefix + msg);
 		}
-		
+
 		public void severe(String msg) {
-			this.log.severe(this.prefix + " " + msg);
+			this.log.severe(this.prefix + msg);
 		}
 	};
 	
