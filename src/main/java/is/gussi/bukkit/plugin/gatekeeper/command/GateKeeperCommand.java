@@ -41,36 +41,69 @@ public class GateKeeperCommand extends Command {
 			tmp_args.remove(0);
 			args = tmp_args.toArray(new String[0]);
 		}
+
+		if(args.length < 2) {
+			return this.cmdHelp(sender, command, label, args);
+		}
+
+		// Get defined action
+		CommandAction action = this.parseAction(args[0]);
 		
+		// Create data object
+		Data data = this.parseData(args[1]);
+		
+		try {
+			long time = this.parseTime(args[2]);
+			data.setExpire(new Date(time + new Date().getTime()));
+		} catch(NullPointerException e) {
+			// No time defined, it's fine
+		} catch (Exception e1) {
+			// Something else, throw up
+			e1.printStackTrace();
+		}
+
 		// Process whitelist command
 		if(label.equalsIgnoreCase("wl") || label.equalsIgnoreCase("whitelist")) {
-			if(args.length < 2) {
-				return this.cmdHelp(sender, command, label, args);
-			}
-			// Get defined action
-			CommandAction action = this.parseAction(args[0]);
-			if(action == null) {
-				return this.cmdHelp(sender, command, label, args);
-			}
-			
-			Data data = this.parseData(args[1]);
-			if(args.length == 3) {
-				try {
-					long time = this.parseTime(args[2]);
-					data.setExpire(new Date(time + new Date().getTime()));
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-			
 			data.setType("whitelist");
+			
 			switch(action) {
 				case ADD:
-					if(!sender.hasPermission("whitelist.whitelist.add")) {
+					if(!sender.hasPermission("gatekeeper.whitelist.add")) {
 						return false;
 					}
 					if(GateKeeper.plugin.ds.add(data)) {
-						sender.sendMessage("Added");
+						sender.sendMessage("GateKeeper: " + args[1] + " has been whitelisted");
+						return true;
+					}
+					sender.sendMessage("Unable to whitelist " + args[1]);
+					break;
+				case REMOVE:
+					if(!sender.hasPermission("gatekeeper.whitelist.remove")) {
+						return false;
+					}
+					if(GateKeeper.plugin.ds.remove(data)) {
+						sender.sendMessage("GateKeeper: " + args[1] + " has been removed from the whitelist");
+						return true;
+					}
+					sender.sendMessage("Unable to remove " + args[1] + " from the whitelist");
+					break;
+				case CHECK:
+					// TODO: Check
+					break;
+			}
+		}
+		
+		// Process blacklist command
+		if(label.equalsIgnoreCase("bl") || label.equalsIgnoreCase("blacklist")) {
+			data.setType("blacklist");
+			
+			switch(action) {
+				case ADD:
+					if(!sender.hasPermission("gatekeeper.blacklist.add")) {
+						return false;
+					}
+					if(GateKeeper.plugin.ds.add(data)) {
+						sender.sendMessage("GateKeeper: " + args[1] + " has been blacklisted");
 						return true;
 					}
 					sender.sendMessage("Unable to add...");
@@ -80,19 +113,15 @@ public class GateKeeperCommand extends Command {
 						return false;
 					}
 					if(GateKeeper.plugin.ds.remove(data)) {
-						sender.sendMessage("Removed");
+						sender.sendMessage("GateKeeper: " + args[1] + " has been removed from the blacklist");
 						return true;
 					}
+					sender.sendMessage("Unable to remove " + args[1] + " from the blacklist");
 					break;
 				case CHECK:
+					// TODO: Check
 					break;
 			}
-		}
-		
-		// Process blacklist command
-		if(label.equalsIgnoreCase("bl") || label.equalsIgnoreCase("blacklist")) {
-			// TODO: All logic
-			return false;
 		}
 		return true;
 	}
