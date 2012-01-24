@@ -6,20 +6,25 @@ import is.gussi.bukkit.plugin.gatekeeper.datasource.*;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
-import org.bukkit.event.Event;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class GateKeeper extends JavaPlugin {
+public class GateKeeper extends JavaPlugin implements Listener {
 	public static GateKeeper plugin;
 	public static Server server;
 	public static final GateKeeperLogger log = new GateKeeperLogger();
 	public Datasource ds;
-	private Listener playerListener = new GateKeeperPlayerListener();
 
 	@Override
 	public void onDisable() {
@@ -35,7 +40,6 @@ public class GateKeeper extends JavaPlugin {
 			this.initializeConfig();
 			this.registerDatasource();
 			this.registerCommands();
-			this.registerEvents();
 			this.loadIsNet();
 		} catch(Exception e) {
 			GateKeeper.log.severe("Error while enabling " + this.getDescription().getName() + " v" + this.getDescription().getVersion());
@@ -56,12 +60,29 @@ public class GateKeeper extends JavaPlugin {
 		getCommand("gatekeeper").setExecutor(new GateKeeperCommand());
 	}
 
-	private void registerEvents() {
-		this.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, this.playerListener , Event.Priority.Highest, this);
-	}
-
 	private void registerDatasource() {
 		this.ds = new DatasourceMySQL();
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void checkPlayer(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		Set<Data> matches = this.ds.check(player);
+		for(Data d : matches) {
+			GateKeeper.log.info("[Whitelist] Match: " + d.toString());
+			if(d.getType().equals("blacklist")) {
+				GateKeeper.log.info("[Witelist] Player " + player.getName() + " blacklisted, rejected entry");
+				event.setJoinMessage(null);
+				SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+				player.kickPlayer(ChatColor.RED + "Blacklisted til " + ChatColor.GOLD + formatter.format(d.getExpire()) + ChatColor.RED + " vegna " + ChatColor.GOLD + d.getComment());
+				return;
+			} else if(d.getType().equals("whitelist")) {
+				return;
+			}
+		}
+		event.setJoinMessage(null);
+		player.kickPlayer(ChatColor.GREEN + "Ekki á whitelist - http://forum.minecraft.is/");
+		GateKeeper.log.info("[Whitelist] Player " + player.getName() + " not whitelisted, rejected entry");
 	}
 
 	public static class GateKeeperLogger {
