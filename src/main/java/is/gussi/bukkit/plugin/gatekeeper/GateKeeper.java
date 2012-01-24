@@ -35,6 +35,7 @@ public class GateKeeper extends JavaPlugin implements Listener {
 	public void onEnable() {
 		GateKeeper.plugin = this;
 		GateKeeper.server = getServer();
+		this.getServer().getPluginManager().registerEvents(this, this);
 
 		try {
 			this.initializeConfig();
