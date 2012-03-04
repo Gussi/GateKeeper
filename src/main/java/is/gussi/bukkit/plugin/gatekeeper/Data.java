@@ -1,11 +1,8 @@
 package is.gussi.bukkit.plugin.gatekeeper;
 
-import java.util.Date;
-
 public abstract class Data {
 	protected String comment = "";
 	protected String type = "";
-	protected Date expire = new Date();
 	protected String source = "";
 	
 	abstract public boolean equals(Object obj);
@@ -25,15 +22,6 @@ public abstract class Data {
 
 	public Data setType(String type) {
 		this.type = type;
-		return this;
-	}
-
-	public Date getExpire() {
-		return this.expire;
-	}
-
-	public Data setExpire(Date expire) {
-		this.expire = expire;
 		return this;
 	}
 	

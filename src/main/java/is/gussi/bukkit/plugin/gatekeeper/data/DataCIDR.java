@@ -1,7 +1,5 @@
 package is.gussi.bukkit.plugin.gatekeeper.data;
 
-import java.util.Date;
-
 import org.bukkit.entity.Player;
 
 import is.gussi.bukkit.plugin.gatekeeper.Data;
@@ -12,13 +10,12 @@ public class DataCIDR extends Data {
 	private long start = 0;
 	private long end = 0;
 
-	public DataCIDR(String cidr, long start, long end, String comment, String type, Date expire, String source) {
+	public DataCIDR(String cidr, long start, long end, String comment, String type, String source) {
 		this.cidr = cidr;
 		this.start = start;
 		this.end = end;
 		this.comment = comment;
 		this.type = type;
-		this.expire = expire;
 		this.source = source;
 	}
 
@@ -77,7 +74,6 @@ public class DataCIDR extends Data {
 	@Override
 	public String toString() {
 		return "DataCIDR [cidr=" + cidr + ", start=" + start + ", end=" + end
-				+ ", comment=" + comment + ", type=" + type + ", expire="
-				+ expire + "]";
+				+ ", comment=" + comment + ", type=" + type + "]";
 	}
 }

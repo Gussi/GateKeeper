@@ -6,7 +6,6 @@ import is.gussi.bukkit.plugin.gatekeeper.datasource.*;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -71,15 +70,9 @@ public class GateKeeper extends JavaPlugin implements Listener {
 		Set<Data> matches = this.ds.check(player);
 		for(Data d : matches) {
 			GateKeeper.log.info("[Whitelist] Match: " + d.toString());
-			if(d.getType().equals("blacklist")) {
-				GateKeeper.log.info("[Witelist] Player " + player.getName() + " blacklisted, rejected entry");
-				event.setJoinMessage(null);
-				SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-				player.kickPlayer(ChatColor.RED + "Blacklisted til " + ChatColor.GOLD + formatter.format(d.getExpire()) + ChatColor.RED + " vegna " + ChatColor.GOLD + d.getComment());
-				return;
-			} else if(d.getType().equals("whitelist")) {
-				return;
-			}
+		}
+		if(matches.size() > 0) {
+			return;
 		}
 		event.setJoinMessage(null);
 		player.kickPlayer(ChatColor.GREEN + "Ekki á whitelist - http://forum.minecraft.is/");

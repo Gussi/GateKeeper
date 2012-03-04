@@ -2,7 +2,6 @@ package is.gussi.bukkit.plugin.gatekeeper.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -51,16 +50,6 @@ public class GateKeeperCommand extends Command {
 		
 		// Create data object
 		Data data = this.parseData(args[1]);
-		
-		try {
-			long time = this.parseTime(args[2]);
-			data.setExpire(new Date(time + new Date().getTime()));
-		} catch(NullPointerException e) {
-			// No time defined, it's fine
-		} catch (Exception e1) {
-			// Something else, throw up
-			e1.printStackTrace();
-		}
 
 		// Process whitelist command
 		if(label.equalsIgnoreCase("wl") || label.equalsIgnoreCase("whitelist")) {
@@ -92,37 +81,7 @@ public class GateKeeperCommand extends Command {
 					break;
 			}
 		}
-		
-		// Process blacklist command
-		if(label.equalsIgnoreCase("bl") || label.equalsIgnoreCase("blacklist")) {
-			data.setType("blacklist");
-			
-			switch(action) {
-				case ADD:
-					if(!sender.hasPermission("gatekeeper.blacklist.add")) {
-						return false;
-					}
-					if(GateKeeper.plugin.ds.add(data)) {
-						sender.sendMessage("GateKeeper: " + args[1] + " has been blacklisted");
-						return true;
-					}
-					sender.sendMessage("Unable to add...");
-					break;
-				case REMOVE:
-					if(!sender.hasPermission("gatekeeper.whitelist.remove")) {
-						return false;
-					}
-					if(GateKeeper.plugin.ds.remove(data)) {
-						sender.sendMessage("GateKeeper: " + args[1] + " has been removed from the blacklist");
-						return true;
-					}
-					sender.sendMessage("Unable to remove " + args[1] + " from the blacklist");
-					break;
-				case CHECK:
-					// TODO: Check
-					break;
-			}
-		}
+
 		return true;
 	}
 	
@@ -180,82 +139,5 @@ public class GateKeeperCommand extends Command {
 			}
 			return new DataPlayer(data);
 		}
-	}
-	
-	/**
-	 * Convert something like 1Y2M3w4d5h6m7s to milliseconds
-	 *
-	 * @param time
-	 * @return
-	 * @throws Exception Invalid time format
-	 */
-	private long parseTime(String time) throws Exception {
-		long seconds = 0;
-		StringBuilder stack = new StringBuilder();
-		for(int i = 0; i < time.length(); ++i) {
-			if(Character.isDigit(time.charAt(i))) {
-				stack.append(time.charAt(i));
-			} else {
-				int s = Integer.parseInt(stack.toString());
-				stack = new StringBuilder();
-
-				// Seconds
-				if(time.charAt(i) == 's') {
-					seconds += s;
-					continue;
-				}
-
-				// Minutes
-				s = s * 60;
-				if(time.charAt(i) == 'm') {
-					seconds += s;
-					continue;
-				}
-
-				// Hours
-				s = s * 60;
-				if(time.charAt(i) == 'h') {
-					seconds += s;
-					continue;
-				}
-
-				// Days
-				s = s * 24;
-				if(time.charAt(i) == 'd') {
-					seconds += s;
-					continue;
-				}
-
-				// Weeks
-				s = s * 7;
-				if(time.charAt(i) == 'w') {
-					seconds += s;
-					continue;
-				}
-
-				// Months
-				s = s * 4;
-				if(time.charAt(i) == 'M') {
-					seconds += s;
-					continue;
-				}
-
-				// Years
-				s = s * 12;
-				if(time.charAt(i) == 'Y') {
-					seconds += s;
-					continue;
-				}
-				
-				// Permanent
-				if(time.charAt(i) == 'P') {
-					seconds = 0;
-					break;
-				}
-
-				return -1;
-			}
-		}
-		return seconds*1000;
 	}
 }
