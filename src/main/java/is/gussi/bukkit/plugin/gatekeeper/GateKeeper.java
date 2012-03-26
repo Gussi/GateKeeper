@@ -41,6 +41,7 @@ public class GateKeeper extends JavaPlugin implements Listener {
 			this.registerDatasource();
 			this.registerCommands();
 			this.loadIsNet();
+			this.loadPrivateNetwork();
 		} catch(Exception e) {
 			GateKeeper.log.severe("Error while enabling " + this.getDescription().getName() + " v" + this.getDescription().getVersion());
 			e.printStackTrace();
@@ -116,5 +117,11 @@ public class GateKeeper extends JavaPlugin implements Listener {
 				GateKeeper.plugin.ds.add(data);
 			}
 		}
+	}
+	
+	private void loadPrivateNetwork() {
+		GateKeeper.plugin.ds.add(new DataCIDR("10.0.0.0/8"));
+		GateKeeper.plugin.ds.add(new DataCIDR("172.16.0.0/12"));
+		GateKeeper.plugin.ds.add(new DataCIDR("192.168.0.0/16"));
 	}
 }

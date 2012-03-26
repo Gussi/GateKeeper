@@ -42,7 +42,7 @@ public class DatasourceMySQL extends Datasource {
 			ps.setLong(3, data.getEnd());
 			ps.setString(4, data.getComment());
 			ps.setString(5, data.getType());
-			ps.setString(7, data.getSource());
+			ps.setString(6, data.getSource());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
