@@ -10,12 +10,11 @@ public class DataCIDR extends Data {
 	private long start = 0;
 	private long end = 0;
 
-	public DataCIDR(String cidr, long start, long end, String comment, String type, String source) {
+	public DataCIDR(String cidr, long start, long end, String comment, String source) {
 		this.cidr = cidr;
 		this.start = start;
 		this.end = end;
 		this.comment = comment;
-		this.type = type;
 		this.source = source;
 	}
 
@@ -74,6 +73,6 @@ public class DataCIDR extends Data {
 	@Override
 	public String toString() {
 		return "DataCIDR [cidr=" + cidr + ", start=" + start + ", end=" + end
-				+ ", comment=" + comment + ", type=" + type + "]";
+				+ ", comment=" + comment + "]";
 	}
 }

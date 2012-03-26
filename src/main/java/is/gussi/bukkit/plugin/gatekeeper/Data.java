@@ -2,7 +2,6 @@ package is.gussi.bukkit.plugin.gatekeeper;
 
 public abstract class Data {
 	protected String comment = "";
-	protected String type = "";
 	protected String source = "";
 	
 	abstract public boolean equals(Object obj);
@@ -13,15 +12,6 @@ public abstract class Data {
 
 	public Data setComment(String comment) {
 		this.comment = comment;
-		return this;
-	}
-
-	public String getType() {
-		return this.type;
-	}
-
-	public Data setType(String type) {
-		this.type = type;
 		return this;
 	}
 	

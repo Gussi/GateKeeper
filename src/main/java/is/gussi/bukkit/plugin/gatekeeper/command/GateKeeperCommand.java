@@ -53,7 +53,6 @@ public class GateKeeperCommand extends Command {
 
 		// Process whitelist command
 		if(label.equalsIgnoreCase("wl") || label.equalsIgnoreCase("whitelist")) {
-			data.setType("whitelist");
 			
 			switch(action) {
 				case ADD:

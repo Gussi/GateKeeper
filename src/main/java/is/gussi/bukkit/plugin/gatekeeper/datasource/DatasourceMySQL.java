@@ -36,13 +36,12 @@ public class DatasourceMySQL extends Datasource {
 	public boolean add(DataCIDR data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("REPLACE INTO `gatekeeper_cidr` VALUES (?, ?, ?, ?, ?, ?)");
+			ps = this.db().prepareStatement("REPLACE INTO `gatekeeper_cidr` VALUES (?, ?, ?, ?, ?)");
 			ps.setString(1, data.getCidr());
 			ps.setLong(2, data.getStart());
 			ps.setLong(3, data.getEnd());
 			ps.setString(4, data.getComment());
-			ps.setString(5, data.getType());
-			ps.setString(6, data.getSource());
+			ps.setString(5, data.getSource());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,11 +60,10 @@ public class DatasourceMySQL extends Datasource {
 	public boolean add(DataPlayer data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("REPLACE INTO `gatekeeper_player` VALUES (?, ?, ?, ?)");
+			ps = this.db().prepareStatement("REPLACE INTO `gatekeeper_player` VALUES (?, ?, ?)");
 			ps.setString(1, data.getPlayer());
 			ps.setString(2, data.getComment());
-			ps.setString(3, data.getType());
-			ps.setString(5, data.getSource());
+			ps.setString(3, data.getSource());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,9 +82,8 @@ public class DatasourceMySQL extends Datasource {
 	public boolean remove(DataCIDR data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("DELETE FROM `gatekeeper_cidr` WHERE `cidr` = ? AND `type` = ?");
+			ps = this.db().prepareStatement("DELETE FROM `gatekeeper_cidr` WHERE `cidr` = ?");
 			ps.setString(1, data.getCidr());
-			ps.setString(2, data.getType());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -105,9 +102,8 @@ public class DatasourceMySQL extends Datasource {
 	public boolean remove(DataPlayer data) {
 		PreparedStatement ps = null;
 		try {
-			ps = this.db().prepareStatement("DELETE FROM `gatekeeper_player` WHERE `player` = ? AND `type` = ?");
+			ps = this.db().prepareStatement("DELETE FROM `gatekeeper_player` WHERE `player` = ?");
 			ps.setString(1, data.getPlayer());
-			ps.setString(2, data.getType());
 			return ps.executeUpdate() != 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -217,8 +213,7 @@ public class DatasourceMySQL extends Datasource {
 			data = new DataPlayer(
 				result.getString(1),
 				result.getString(2),
-				result.getString(3),
-				result.getString(4)
+				result.getString(3)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -236,8 +231,7 @@ public class DatasourceMySQL extends Datasource {
 				result.getLong(2),
 				result.getLong(3),
 				result.getString(4),
-				result.getString(5),
-				result.getString(6)
+				result.getString(5)
 			);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

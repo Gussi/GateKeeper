@@ -112,7 +112,6 @@ public class GateKeeper extends JavaPlugin implements Listener {
 			Scanner s = new Scanner(stream);
 			while(s.hasNextLine()) {
 				DataCIDR data = new DataCIDR(s.nextLine());
-				data.setType("whitelist");
 				data.setSource("isnet");
 				GateKeeper.plugin.ds.add(data);
 			}
