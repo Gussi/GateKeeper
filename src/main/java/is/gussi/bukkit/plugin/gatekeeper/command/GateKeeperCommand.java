@@ -15,7 +15,6 @@ import is.gussi.bukkit.plugin.gatekeeper.data.DataPlayer;
 
 public class GateKeeperCommand extends Command {
 
-	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
 		// Sender requested help (or requested nothing)
 		if(args.length == 0 || args[0].equalsIgnoreCase("help")) {

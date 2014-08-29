@@ -22,7 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class GateKeeper extends JavaPlugin implements Listener {
 	public static GateKeeper plugin;
 	public static Server server;
-	public static final GateKeeperLogger log = new GateKeeperLogger();
+	public static Logger log;
 	public Datasource ds;
 
 	@Override
@@ -34,6 +34,7 @@ public class GateKeeper extends JavaPlugin implements Listener {
 	public void onEnable() {
 		GateKeeper.plugin = this;
 		GateKeeper.server = getServer();
+		GateKeeper.log = getLogger();
 		this.getServer().getPluginManager().registerEvents(this, this);
 
 		try {
@@ -62,7 +63,7 @@ public class GateKeeper extends JavaPlugin implements Listener {
 	}
 
 	private void registerDatasource() {
-		this.ds = new DatasourceMySQL();
+		this.ds = new MySQL();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
@@ -79,23 +80,6 @@ public class GateKeeper extends JavaPlugin implements Listener {
 		player.kickPlayer(ChatColor.GREEN + "Ekki á whitelist - http://forum.minecraft.is/");
 		GateKeeper.log.info("[Whitelist] Player " + player.getName() + " not whitelisted, rejected entry");
 	}
-
-	public static class GateKeeperLogger {
-		private final Logger log = Logger.getLogger("is.gussi.gatekeeper");
-		protected String prefix = "[GateKeeper] ";
-
-		public void info(String msg) {
-			this.log.info(this.prefix + msg);
-		}
-
-		public void warning(String msg) {
-			this.log.warning(this.prefix + msg);
-		}
-
-		public void severe(String msg) {
-			this.log.severe(this.prefix + msg);
-		}
-	};
 	
 	// TODO: Move this to somewhere else
 	private void loadIsNet() {
@@ -115,6 +99,7 @@ public class GateKeeper extends JavaPlugin implements Listener {
 				data.setSource("isnet");
 				GateKeeper.plugin.ds.add(data);
 			}
+			s.close();
 		}
 	}
 	

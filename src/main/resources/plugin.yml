@@ -1,6 +1,6 @@
 name: GateKeeper
 main: is.gussi.bukkit.plugin.gatekeeper.GateKeeper
-version: 0.1
+version: 0.1.1
 website: http://github.com/gussi/GateKeeper
 author: Gussi
 description: Yet another whitelist plugin for bukkit
