@@ -1,6 +1,6 @@
 package is.gussi.bukkit.plugin.gatekeeper;
 
-import java.util.Set;
+import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 
@@ -12,5 +12,5 @@ public interface Datasource {
 	public boolean remove(Data data);
 	
 	// Return matching dataset
-	public Set<Data> check(Player player);
+	public ArrayList<Data> check(Player player);
 }

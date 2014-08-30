@@ -2,10 +2,7 @@ package is.gussi.bukkit.plugin.gatekeeper.datasource;
 
 import is.gussi.bukkit.plugin.gatekeeper.Data;
 import is.gussi.bukkit.plugin.gatekeeper.Datasource;
-import is.gussi.bukkit.plugin.gatekeeper.Util;
 import is.gussi.bukkit.plugin.gatekeeper.GateKeeper;
-import is.gussi.bukkit.plugin.gatekeeper.data.DataCIDR;
-import is.gussi.bukkit.plugin.gatekeeper.data.DataPlayer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,10 +11,8 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -41,52 +36,6 @@ public class MySQL implements Datasource {
 			GateKeeper.plugin.getServer().getPluginManager().disablePlugin(GateKeeper.plugin);
 		}
 		return null;
-	}
-
-	public boolean add(DataCIDR data) {
-		PreparedStatement ps = null;
-		try {
-			ps = this.db().prepareStatement("REPLACE INTO `gatekeeper_cidr` VALUES (?, ?, ?, ?, ?)");
-			ps.setString(1, data.getCidr());
-			ps.setLong(2, data.getStart());
-			ps.setLong(3, data.getEnd());
-			ps.setString(4, data.getComment());
-			ps.setString(5, data.getSource());
-			return ps.executeUpdate() != 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(ps != null) {
-					ps.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
-
-	public boolean add(DataPlayer data) {
-		PreparedStatement ps = null;
-		try {
-			ps = this.db().prepareStatement("REPLACE INTO `gatekeeper_player` VALUES (?, ?, ?)");
-			ps.setString(1, data.getPlayer());
-			ps.setString(2, data.getComment());
-			ps.setString(3, data.getSource());
-			return ps.executeUpdate() != 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(ps != null) {
-					ps.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
 	}
 
 	private static String getSQL(String table) {
@@ -174,7 +123,7 @@ public class MySQL implements Datasource {
 		);
 	}
 
-	public Set<Data> check(Player player) {
+	public ArrayList<Data> check(Player player) {
 		// TODO Auto-generated method stub
 		return null;
 	}
